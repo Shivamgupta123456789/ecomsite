@@ -25,7 +25,8 @@ SECRET_KEY = "django-insecure-b&rtwcaa(x2$1q82ag3zfz2%hfvg4(oli5v*zgim%#2)=9y9#_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["shivam-ecom.onrender.com"]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'shivam-ecom.onrender.com']
+
 
 
 # Application definition
