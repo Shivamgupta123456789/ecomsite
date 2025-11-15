@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ product_object.title }} | Product Details</title>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.4.1.js"
+          integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+          crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="{% static 'shop/style.css' %}">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .product-container {
+      margin-top: 60px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .product-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .product-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .product-price {
+      font-size: 1.3rem;
+      color: #28a745;
+      font-weight: 600;
+    }
+    .discounted-price {
+      text-decoration: line-through;
+      color: #888;
+      margin-left: 10px;
+      font-size: 1rem;
+    }
+    .description {
+      margin-top: 20px;
+      color: #555;
+      line-height: 1.6;
+    }
+    .btn-custom {
+      margin-top: 25px;
+      margin-right: 10px;
+      padding: 10px 25px;
+      border-radius: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container product-container">
+    <div class="row">
+      <!-- Product Image -->
+      <div class="col-md-6 product-image">
+        <img src="{{ product_object.image }}" alt="{{ product_object.title }}">
+      </div>
+
+      <!-- Product Info -->
+      <div class="col-md-6">
+        <h2 class="product-title">{{ product_object.title }}</h2>
+
+        <div>
+          <span class="product-price">₹{{ product_object.discounted_price }}</span>
+          <span class="discounted-price">₹{{ product_object.price }}</span>
+        </div>
+
+        <p class="description">{{ product_object.description }}</p>
+
+        <div class="mt-4">
+          <a href="/" class="btn btn-outline-secondary btn-custom">← Back to Shop</a>
+          <button id="{{ product_object.id }}" class="btn btn-warning btn-custom atc">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize or load cart
+    let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+
+    $(document).on('click', '.atc', function () {
+      const item_id = this.id.toString();
+      const name = "{{ product_object.title }}";
+      const price = parseFloat("{{ product_object.discounted_price }}");
+
+      if (cart[item_id]) {
+        cart[item_id][0] += 1;
+        cart[item_id][2] += price;
+      } else {
+        cart[item_id] = [1, name, price];
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${name} added to cart 🛒`);
+    });
+  </script>
+</body>
+</html>
